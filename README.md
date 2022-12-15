@@ -27,7 +27,7 @@ To build or run the application, we must first prepare the project. We do this b
 #### Android
 
 ```sh
-> cd MultimedijaApp
+> cd dash
 > flutter clean
 > flutter pub get
 > flutter packages pub run build_runner build --delete-conflicting-outputs

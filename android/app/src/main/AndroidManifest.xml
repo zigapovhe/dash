@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dash">
+    package="com.dash.android">
    <application
         android:label="dash"
         android:name="${applicationName}"
