@@ -9,6 +9,8 @@ class AuthService {
   //  It will be used to check if the user is logged in or not.
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
+  User? get currentUser => _auth.currentUser;
+
   //  SignIn the user using Email and Password
   Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context) async {
     try {

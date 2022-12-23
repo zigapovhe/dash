@@ -1,7 +1,9 @@
 import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
+import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBanner.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -24,15 +26,17 @@ class DashboardScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Messages", style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold)),
+                    const Text("Klepet", style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold)),
                     ClipOval(
                       //Oval avatar
                       child: Material(
-                        color: ColorsHelper.accent, // button color
+                        color: ColorsHelper.appBar, // button color
                         child: InkWell(
                           splashColor: ColorsHelper.accent.withOpacity(0.5), // inkwell color
-                          child: SizedBox(width: 45, height: 45, child: Icon(Icons.person, color: Colors.white,)),
-                          onTap: () {},
+                          child: const SizedBox(width: 45, height: 45, child: Icon(Icons.add, color: Colors.white,)),
+                          onTap: () {
+                            GoRouter.of(context).push(Constants.createChatRoute); 
+                          },
                         ),
                       ),
                     ),
@@ -50,7 +54,7 @@ class DashboardScreen extends StatelessWidget {
                 child: TextFormField(
                   decoration: const InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Search",
+                    hintText: "Iskanje",
                     hintStyle: TextStyle(color: Colors.grey),
                     icon: Icon(Icons.search, color: Colors.grey),
                   ),
@@ -63,35 +67,22 @@ class DashboardScreen extends StatelessWidget {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.only(top: 15),
-
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {},
-                        splashColor: ColorsHelper.accent.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(0,5,0,5),
-                          decoration: BoxDecoration(
-                            //color: ColorsHelper.accent.withOpacity(0.37),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const ChatBanner(
-                            name: "Aljaž",
-                            lastMessage: "Hello, how are you?",
-                            time: "12:00",
-                            image: "assets/images/placeholder.png",
-                            readStatus: ReadStatusEnum.read,
-                          ),
-                          )
-                      );
-                    },
+                      return ChatBanner(
+                          name: "Lan Pavletič",
+                          lastMessage: "Yo, kaku smo?",
+                          time: "12:00",
+                          readStatus: ReadStatusEnum.read,
+                          onTap: () {
+                            print("Chat banner pressed");
+                          });
+                      },
                   ),
                 ),
               ),
-
             ],
           ),
         ),

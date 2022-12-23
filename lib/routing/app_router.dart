@@ -5,8 +5,9 @@ import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
 import 'package:dash/screens/errorScreen.dart';
 import 'package:dash/screens/landing/loginScreen.dart';
 import 'package:dash/screens/landing/registerScreen.dart';
+import 'package:dash/screens/mainScreens/createChatScreen/createChatScreen.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
-import 'package:dash/screens/mainScreens/profileScreen.dart';
+import 'package:dash/screens/mainScreens/profileScreen/profileScreen.dart';
 import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,17 @@ final routerProvider = Provider((ref) {
       backgroundColor: Colors.white,
       label: Constants.dashboardName,
     ),
+/*
+    ScaffoldWithNavBarTabItem(
+      initialLocation: Constants.createChatRoute,
+      icon: Icon(Icons.mark_unread_chat_alt),
+      webIcon: Icons.mark_unread_chat_alt,
+      backgroundColor: Colors.white,
+      label: Constants.createChatName,
+    ),
 
+
+ */
      ScaffoldWithNavBarTabItem(
       initialLocation: Constants.profileRoute,
       icon: Icon(Icons.person),
@@ -51,6 +62,12 @@ final routerProvider = Provider((ref) {
               name: Constants.dashboardName,
               pageBuilder: (context, state) => const NoTransitionPage(
                   child: DashboardScreen()),
+            ),
+            GoRoute(
+              path: Constants.createChatRoute,
+              name: Constants.createChatName,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                  child: CreateChatScreen()),
             ),
             GoRoute(
               path: Constants.profileRoute,
