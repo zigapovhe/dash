@@ -46,8 +46,7 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
     if(!kIsWeb){
       final String title = widget.tabs[_currentIndex].label;
       return Scaffold(
-        appBar: AppBar(
-          title: Text(title, style: const TextStyle(fontSize: 20)),
+        appBar: GoRouter.of(context).location != widget.tabs[_currentIndex].initialLocation ? AppBar(
           toolbarHeight: 65,
           backgroundColor: ColorsHelper.appBar,
           leading: GoRouter.of(context).location != widget.tabs[_currentIndex].initialLocation ? IconButton(
@@ -56,12 +55,14 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
             },
             icon: const Icon(Icons.arrow_back_ios),
           ) : null,
-        ),
+        ) : null,
         body: widget.child,
         bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: Colors.white,
+          elevation: 2,
+          backgroundColor: Colors.white,
+          unselectedItemColor: Colors.grey,
           selectedItemColor: ColorsHelper.accent,
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
           enableFeedback: true,
           currentIndex: _currentIndex,
           items: widget.tabs as List<BottomNavigationBarItem>,

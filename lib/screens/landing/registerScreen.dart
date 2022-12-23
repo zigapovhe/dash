@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends ConsumerWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends ConsumerWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,6 +17,7 @@ class LoginScreen extends ConsumerWidget {
     final formKey = GlobalKey<FormState>();
     TextEditingController emailController = TextEditingController();
     TextEditingController passController = TextEditingController();
+    TextEditingController confirmPassController = TextEditingController();
 
     return Scaffold(
         backgroundColor: ColorsHelper.background,
@@ -57,7 +58,7 @@ class LoginScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Dash Prijava", style: TextStyle(fontSize: 30, color: Colors.black)),
+                        const Text("Dash Registracija", style: TextStyle(fontSize: 30, color: Colors.black)),
                         Padding(padding: const EdgeInsets.fromLTRB(40,20,40,20),
                           child: Align(
                             alignment: Alignment.center,
@@ -80,21 +81,27 @@ class LoginScreen extends ConsumerWidget {
                                       controller: passController,
                                       enableValidator: true
                                   ),
+                                  CredentialTextField(
+                                      mainText: "Ponovi geslo",
+                                      isPassword: true,
+                                      controller: confirmPassController,
+                                      enableValidator: true
+                                  ),
                                   Container(
                                     margin: const EdgeInsets.only(top: 20),
                                     child: CustomButton(
-                                      label: "Prijava",
+                                      label: "Registracija",
                                       onTap: () async {
                                         if(formKey.currentState!.validate()) {
-                                          await auth.signInWithEmailAndPassword(emailController.text, passController.text, context);
+                                          await auth.signUpWithEmailAndPassword(emailController.text, passController.text, context);
                                         }
                                       },
                                     ),
                                   ),
                                   TextButton(onPressed: (){}, child: const Text("Pozabljeno geslo?")),
                                   TextButton(onPressed: (){
-                                    GoRouter.of(context).go(Constants.registerRoute);
-                                  }, child: const Text("Registracija"))
+                                    GoRouter.of(context).go(Constants.loginRoute);
+                                  }, child: const Text("Prijava"))
                                 ],
                               ),
                             ),

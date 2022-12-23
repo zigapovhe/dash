@@ -28,7 +28,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.5
-  go_router: ^5.2.4
+  go_router: ^6.0.0
   flutter_riverpod: ^2.1.1
   freezed_annotation: ^2.2.0
   json_annotation: ^4.7.0
@@ -37,6 +37,7 @@ dependencies:
   cloud_firestore: ^4.2.0
   bottom_bar: ^2.0.3
   sidebarx: ^0.14.0
+  swipeable_tile: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:

@@ -4,7 +4,9 @@ import 'package:dash/routing/widgets/BottomNavigationBarItem.dart';
 import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
 import 'package:dash/screens/errorScreen.dart';
 import 'package:dash/screens/landing/loginScreen.dart';
-import 'package:dash/screens/mainScreens/dashboardScreen.dart';
+import 'package:dash/screens/landing/registerScreen.dart';
+import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
+import 'package:dash/screens/mainScreens/profileScreen.dart';
 import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,20 +17,20 @@ final routerProvider = Provider((ref) {
   final rootNavigatorKey = GlobalKey<NavigatorState>();
   final shellNavigatorKey = GlobalKey<NavigatorState>();
 
-  final tabs = [
+  const tabs = [
     ScaffoldWithNavBarTabItem(
       initialLocation: Constants.dashboardRoute,
-      icon: const Icon(Icons.home),
-      webIcon: Icons.home,
-      backgroundColor: ColorsHelper.appBar,
+      icon: Icon(Icons.chat),
+      webIcon: Icons.mark_unread_chat_alt,
+      backgroundColor: Colors.white,
       label: Constants.dashboardName,
     ),
 
-    ScaffoldWithNavBarTabItem(
+     ScaffoldWithNavBarTabItem(
       initialLocation: Constants.profileRoute,
-      icon: const Icon(Icons.person),
+      icon: Icon(Icons.person),
       webIcon: Icons.person,
-      backgroundColor: ColorsHelper.appBar,
+      backgroundColor: Colors.white,
       label: Constants.profileName,
     ),
   ];
@@ -50,12 +52,22 @@ final routerProvider = Provider((ref) {
               pageBuilder: (context, state) => const NoTransitionPage(
                   child: DashboardScreen()),
             ),
+            GoRoute(
+              path: Constants.profileRoute,
+              name: Constants.profileName,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                  child: ProfileScreen()),
+            ),
           ],
         ),
         GoRoute(
             path: Constants.loginRoute,
             name: Constants.loginName,
             builder: (context, state) => const LoginScreen()),
+        GoRoute(
+            path: Constants.registerRoute,
+            name: Constants.registerName,
+            builder: (context, state) => const RegisterScreen()),
       ],
 
       redirect: (context, state) {
@@ -68,9 +80,9 @@ final routerProvider = Provider((ref) {
         // Returning `null` means "we are not authorized"
         final isAuth = authState.valueOrNull != null;
 
-        final isLogin = state.location == Constants.loginRoute;
-        if (isLogin) {
-          return isAuth ? Constants.dashboardRoute : Constants.loginRoute;
+        final isOnLanding = state.location == Constants.loginRoute || state.location == Constants.registerRoute;
+        if (isOnLanding) {
+          return isAuth ? Constants.dashboardRoute : state.location;
         }
 
         final isLoggingIn = state.location == Constants.loginRoute;
