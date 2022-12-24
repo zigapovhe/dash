@@ -2,14 +2,17 @@ import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBanner.dart';
+import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final chatPreviews = ref.watch(chatRoomsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Material(
@@ -62,26 +65,33 @@ class DashboardScreen extends StatelessWidget {
               ),
 
 
-
-              //Chat banner with ListView
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 15),
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return ChatBanner(
-                          name: "Lan Pavletič",
-                          lastMessage: "Yo, kaku smo?",
-                          time: "12:00",
-                          readStatus: ReadStatusEnum.read,
-                          onTap: () {
-                            print("Chat banner pressed");
-                          });
-                      },
-                  ),
-                ),
+              chatPreviews.when(
+                 data: (data) {
+                   return Expanded(
+                     child: Container(
+                       margin: const EdgeInsets.only(top: 15),
+                       child: ListView.builder(
+                         scrollDirection: Axis.vertical,
+                         itemCount: data.length,
+                         itemBuilder: (context, index) {
+                           return ChatBanner(
+                               name: data[index].title,
+                               lastMessage: data[index].lastMessage,
+                               time: data[index].timestamp!,
+                               readStatus: ReadStatusEnum.read,
+                               onTap: () {
+                                 print("Chat banner pressed");
+                               });
+                         },
+                       ),
+                     ),
+                   );
+                 },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (error, stack) {
+                   print("$error\n$stack");
+                   return Text(error.toString());
+                  },
               ),
             ],
           ),

@@ -6,7 +6,7 @@ import 'package:swipeable_tile/swipeable_tile.dart';
 class ChatBanner extends StatelessWidget {
   final String name;
   final String lastMessage;
-  final String time;
+  final DateTime time;
   final ReadStatusEnum readStatus;
   final Function()? onTap;
 
@@ -32,6 +32,17 @@ class ChatBanner extends StatelessWidget {
       } else {
         abbreviation = name;
       }
+    }
+
+
+    String timeString;
+    DateTime now = DateTime.now();
+    if(time.year == now.year && time.month == now.month && time.day == now.day){
+      timeString = "${time.hour}:${time.minute}";
+    } else if (time.year == now.year){
+      timeString = "${time.day}.${time.month}";
+    } else {
+      timeString = "${time.day}.${time.month}.${time.year}";
     }
 
     Widget indicator;
@@ -99,7 +110,7 @@ class ChatBanner extends StatelessWidget {
                 trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(time, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+                    Text(timeString, style: const TextStyle(color: Colors.grey, fontSize: 15)),
                     const SizedBox(height: 5),
                     indicator
                   ],
