@@ -2,7 +2,7 @@ import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/widgets/credentialTextField.dart';
 import 'package:dash/screens/widgets/customButton.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/generalState.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,7 +86,7 @@ class LoginScreen extends ConsumerWidget {
                                       label: "Prijava",
                                       onTap: () async {
                                         if(formKey.currentState!.validate()) {
-                                          await auth.signInWithEmailAndPassword(emailController.text, passController.text, context);
+                                          await auth.signInWithEmailAndPassword(emailController.text, passController.text, context, ref);
                                         }
                                       },
                                     ),

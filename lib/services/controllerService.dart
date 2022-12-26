@@ -12,6 +12,11 @@ class ControllerServices {
     final collectionRef = FirebaseFirestore.instance.collection('users');
     return await collectionRef.doc(userId).get();
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+    final collectionRef = FirebaseFirestore.instance.collection('users');
+    return collectionRef.snapshots();
+  }
 }
 
 final controllerProvider= Provider<ControllerServices>((ref)=>ControllerServices());

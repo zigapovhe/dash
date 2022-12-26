@@ -1,5 +1,7 @@
+import 'package:dash/state/generalState.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthService {
   // For Authentication related functions you need an instance of FirebaseAuth
@@ -12,9 +14,9 @@ class AuthService {
   User? get currentUser => _auth.currentUser;
 
   //  SignIn the user using Email and Password
-  Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context) async {
+  Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context, WidgetRef ref) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password).then((value) => ref.read(getUserDocumentProvider(value.user!.uid)));
     } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,
@@ -39,7 +41,9 @@ class AuthService {
       _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      );
+      ).then((value) => _auth.signOut());
+
+
     } on FirebaseAuthException catch (e) {
       await showDialog(
           context: context,

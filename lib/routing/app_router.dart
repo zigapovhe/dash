@@ -4,11 +4,12 @@ import 'package:dash/routing/widgets/BottomNavigationBarItem.dart';
 import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
 import 'package:dash/screens/errorScreen.dart';
 import 'package:dash/screens/landing/loginScreen.dart';
+import 'package:dash/screens/landing/onboardingScreen.dart';
 import 'package:dash/screens/landing/registerScreen.dart';
 import 'package:dash/screens/mainScreens/createChatScreen/createChatScreen.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
 import 'package:dash/screens/mainScreens/profileScreen/profileScreen.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/generalState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -47,6 +48,17 @@ final routerProvider = Provider((ref) {
   ];
 
   final authState = ref.watch(currentUserProvider);
+
+
+  Future <String> returnDashboardScreen() async{
+    bool firstLogin = ref.read(getUserDocumentProvider(authState.value!.uid)).value?.firstLogin ?? true;
+    if(firstLogin) {
+      return Constants.onboardingRoute;
+    } else {
+      return Constants.dashboardRoute;
+    }
+  }
+
   return GoRouter(
       initialLocation: Constants.loginRoute,
       navigatorKey: rootNavigatorKey,
@@ -78,6 +90,10 @@ final routerProvider = Provider((ref) {
           ],
         ),
         GoRoute(
+            path: Constants.onboardingRoute,
+            name: Constants.onboardingScreenName,
+            builder: (context, state) => const OnboardingScreen()),
+        GoRoute(
             path: Constants.loginRoute,
             name: Constants.loginName,
             builder: (context, state) => const LoginScreen()),
@@ -87,7 +103,7 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const RegisterScreen()),
       ],
 
-      redirect: (context, state) {
+      redirect: (context, state) async {
         // If our async state is loading, don't perform redirects, yet
         if (authState.isLoading || authState.hasError) return null;
 
@@ -99,11 +115,11 @@ final routerProvider = Provider((ref) {
 
         final isOnLanding = state.location == Constants.loginRoute || state.location == Constants.registerRoute;
         if (isOnLanding) {
-          return isAuth ? Constants.dashboardRoute : state.location;
+          return isAuth ? await returnDashboardScreen() : state.location;
         }
 
         final isLoggingIn = state.location == Constants.loginRoute;
-        if (isLoggingIn) return isAuth ? Constants.dashboardRoute : null;
+        if (isLoggingIn) return isAuth ? await returnDashboardScreen() : null;
 
         return isAuth ? null : Constants.loginRoute;
       },

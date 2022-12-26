@@ -39,6 +39,7 @@ dependencies:
   bottom_bar: ^2.0.3
   sidebarx: ^0.14.0
   swipeable_tile: ^2.0.0+3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,6 @@
-enum ReadStatusEnum {
+enum ReadStatus {
   delivered,
   unread,
   read,
-  typing,
   newMessage,
 }

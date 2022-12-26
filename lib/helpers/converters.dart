@@ -1,4 +1,5 @@
 
+import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class TimestampConverter implements JsonConverter<DateTime, int> {
@@ -11,15 +12,13 @@ class TimestampConverter implements JsonConverter<DateTime, int> {
   int toJson(DateTime object) => object.millisecondsSinceEpoch;
 }
 
-/*
-class RoleTypeConverter implements JsonConverter<RoleType, int> {
-  const RoleTypeConverter();
+
+class ReadStatusConverter implements JsonConverter<ReadStatus, int> {
+  const ReadStatusConverter();
 
   @override
-  RoleType fromJson(int json) => RoleType.values[json];
+  ReadStatus fromJson(int json) => ReadStatus.values[json];
 
   @override
-  int toJson(RoleType object) => object.index;
+  int toJson(ReadStatus object) => object.index;
 }
-
- */

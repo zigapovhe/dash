@@ -2,7 +2,7 @@ import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBanner.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/generalState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -78,7 +78,7 @@ class DashboardScreen extends ConsumerWidget {
                                name: data[index].title,
                                lastMessage: data[index].lastMessage,
                                time: data[index].timestamp!,
-                               readStatus: ReadStatusEnum.read,
+                               readStatus: ReadStatus.newMessage,
                                onTap: () {
                                  print("Chat banner pressed");
                                });

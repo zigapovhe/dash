@@ -7,7 +7,7 @@ class ChatBanner extends StatelessWidget {
   final String name;
   final String lastMessage;
   final DateTime time;
-  final ReadStatusEnum readStatus;
+  final ReadStatus readStatus;
   final Function()? onTap;
 
   const ChatBanner(
@@ -46,20 +46,20 @@ class ChatBanner extends StatelessWidget {
     }
 
     Widget indicator;
-    if (readStatus == ReadStatusEnum.newMessage) {
+    if (readStatus == ReadStatus.newMessage) {
       indicator = Container(
         width: 10,
         height: 10,
         decoration: const BoxDecoration(
             color: Colors.redAccent, shape: BoxShape.circle),
       );
-    } else if (readStatus == ReadStatusEnum.read) {
+    } else if (readStatus == ReadStatus.read) {
       indicator = const Icon(
         Icons.done_all,
         color: Colors.green,
         size: 18,
       );
-    } else if (readStatus == ReadStatusEnum.delivered) {
+    } else if (readStatus == ReadStatus.delivered) {
       indicator = const Icon(
         Icons.done,
         color: Colors.grey,

@@ -3,7 +3,7 @@ import 'package:dash/screens/mainScreens/profileScreen/modals/accountSettingsMod
 import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsModal.dart';
 import 'package:dash/screens/widgets/customButton.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/generalState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
