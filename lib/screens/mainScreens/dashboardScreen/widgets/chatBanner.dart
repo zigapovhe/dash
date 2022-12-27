@@ -1,5 +1,6 @@
 import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
+import 'package:dash/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
@@ -21,19 +22,6 @@ class ChatBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String abbreviation;
-
-    if(name.contains(" ")){
-      final List<String> split = name.split(" ");
-      abbreviation = split[0][0] + split[1][0];
-    } else {
-      if(name.length > 2){
-        abbreviation = name.substring(0, 2);
-      } else {
-        abbreviation = name;
-      }
-    }
-
 
     String timeString;
     DateTime now = DateTime.now();
@@ -102,7 +90,7 @@ class ChatBanner extends StatelessWidget {
                     child: SizedBox(
                         width: 50,
                         height: 50,
-                        child: Center(child: Text(abbreviation, style: const TextStyle(color: Colors.white, fontSize: 18),))),
+                        child: Center(child: Text(name.abbreviation, style: const TextStyle(color: Colors.white, fontSize: 18),))),
                   ),
                 ),
                 title: Text(name, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),

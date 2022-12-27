@@ -17,6 +17,10 @@ class Constants {
   static const String dashboardName = ".";
   static const String dashboardRoute = "/dashboard";
 
+  static const String detailedChatName = "Klepet";
+  static const String detailedChatRoute = "/dashboard/$chatRoute";
+  static const String chatRoute = "chat";
+
   static const String createChatName = "Začni nov klepet";
   static const String createChatRoute = "/create-chat";
 

@@ -43,19 +43,8 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
   @override
   Widget build(BuildContext context) {
     if(!kIsWeb){
-      final String title = widget.tabs[_currentIndex].label;
       return Scaffold(
-        appBar: GoRouter.of(context).location != widget.tabs[_currentIndex].initialLocation ? AppBar(
-          toolbarHeight: 65,
-          backgroundColor: ColorsHelper.appBar,
-          leading: GoRouter.of(context).location != widget.tabs[_currentIndex].initialLocation ? IconButton(
-            onPressed: (){
-              context.pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ) : null,
-        ) : null,
-        body: Material(child: widget.child),
+        body: SafeArea(child: Material(child: widget.child)),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 2,
           backgroundColor: Colors.white,

@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash/dtos/chatDto/chatDto.dart';
 import 'package:dash/dtos/chatPreviewDto/chatPreviewDto.dart';
 import 'package:dash/dtos/memberDto/memberDto.dart';
 import 'package:dash/helpers/constants.dart';
@@ -19,10 +20,15 @@ final currentUserProvider = StreamProvider<User?>((ref) {
   return ref.read(authenticationProvider).authStateChange;
 });
 
-final chatRoomsProvider = StreamProvider.autoDispose((ref){
+final chatPreviewsProvider = StreamProvider.autoDispose((ref){
   final userId = ref.read(currentUserProvider).value?.uid;
   Stream<DatabaseEvent> stream = ref.watch(controllerProvider).getChatPreviews(userId!);
   return stream.map((list) => list.snapshot.children.map((e) => ChatPreview.fromJson(Map<String, dynamic>.from(e.value as Map))).toList());
+});
+
+final fullChatProvider = StreamProvider.autoDispose.family<List<Chat>, String>((ref, chatId) {
+  Stream<DatabaseEvent> stream = ref.watch(controllerProvider).getFullChat(chatId);
+  return stream.map((list) => list.snapshot.children.map((e) => Chat.fromJson(Map<String, dynamic>.from(e.value as Map))).toList());
 });
 
 final getUserDocumentProvider = FutureProvider((ref) async {

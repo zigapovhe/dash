@@ -1,3 +1,4 @@
+import 'package:dash/dtos/chatPreviewDto/chatPreviewDto.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/routing/widgets/BottomNavigationBarItem.dart';
 import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
@@ -7,6 +8,7 @@ import 'package:dash/screens/landing/onboardingScreen.dart';
 import 'package:dash/screens/landing/registerScreen.dart';
 import 'package:dash/screens/mainScreens/createChatScreen/createChatScreen.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
+import 'package:dash/screens/mainScreens/dashboardScreen/detailedChatScreen.dart';
 import 'package:dash/screens/mainScreens/profileScreen/profileScreen.dart';
 import 'package:dash/state/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
@@ -75,6 +77,16 @@ final routerProvider = Provider((ref) {
               name: Constants.dashboardName,
               pageBuilder: (context, state) => const NoTransitionPage(
                   child: DashboardScreen()),
+              routes: <RouteBase>[
+                /// The details screen to display stacked on the inner Navigator.
+                GoRoute(
+                    path: Constants.chatRoute,
+                    name: Constants.detailedChatName,
+                    pageBuilder: (context, state) => NoTransitionPage(
+                        child: DetailedChatScreen(chatPreview: state.extra as ChatPreview),
+                    )
+                ),
+              ],
             ),
             GoRoute(
               path: Constants.createChatRoute,

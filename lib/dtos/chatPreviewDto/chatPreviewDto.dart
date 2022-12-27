@@ -7,6 +7,7 @@ part 'chatPreviewDto.g.dart';
 @freezed
 class ChatPreview with _$ChatPreview {
   const factory ChatPreview({
+    required String chatId,
     required String title,
     required String lastMessage,
     @TimestampConverter()

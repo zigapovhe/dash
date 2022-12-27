@@ -12,7 +12,7 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatPreviews = ref.watch(chatRoomsProvider);
+    final chatPreviews = ref.watch(chatPreviewsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
 
     return SafeArea(
@@ -79,7 +79,7 @@ class DashboardScreen extends ConsumerWidget {
                                time: data[index].timestamp!,
                                readStatus: data[index].readStatus,
                                onTap: () {
-                                 print("Chat banner pressed");
+                                 GoRouter.of(context).push(Constants.detailedChatRoute, extra: data[index]);
                                });
                          },
                        ),

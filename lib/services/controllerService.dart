@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart' as RTDB;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ControllerServices {
-  Stream<DatabaseEvent> getChatPreviews(String userId) {
-    DatabaseReference chatsPreviewRef = FirebaseDatabase.instance.ref('chatPreview/users/$userId');
+  Stream<RTDB.DatabaseEvent> getChatPreviews(String userId) {
+    RTDB.DatabaseReference chatsPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId');
     return chatsPreviewRef.onValue;
+  }
+
+  Stream<RTDB.DatabaseEvent> getFullChat(String chatId) {
+    RTDB.Query fullChatRef = RTDB.FirebaseDatabase.instance.ref('full_chats/$chatId').orderByChild("timestamp");
+    return fullChatRef.onValue;
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument(String userId) {
