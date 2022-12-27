@@ -2,7 +2,7 @@ import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/widgets/credentialTextField.dart';
 import 'package:dash/screens/widgets/customButton.dart';
-import 'package:dash/state/generalState.dart';
+import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

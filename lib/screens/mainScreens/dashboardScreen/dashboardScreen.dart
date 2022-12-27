@@ -2,7 +2,7 @@ import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBanner.dart';
-import 'package:dash/state/generalState.dart';
+import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,9 +14,9 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chatPreviews = ref.watch(chatRoomsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
-    return Material(
-      child: SafeArea(
+
+    return SafeArea(
+      child: Material(
         child: Container(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -38,7 +38,7 @@ class DashboardScreen extends ConsumerWidget {
                           splashColor: ColorsHelper.accent.withOpacity(0.5), // inkwell color
                           child: const SizedBox(width: 45, height: 45, child: Icon(Icons.add, color: Colors.white,)),
                           onTap: () {
-                            GoRouter.of(context).push(Constants.createChatRoute); 
+                            GoRouter.of(context).push(Constants.createChatRoute);
                           },
                         ),
                       ),
@@ -64,7 +64,6 @@ class DashboardScreen extends ConsumerWidget {
                 ),
               ),
 
-
               chatPreviews.when(
                  data: (data) {
                    return Expanded(
@@ -78,7 +77,7 @@ class DashboardScreen extends ConsumerWidget {
                                name: data[index].title,
                                lastMessage: data[index].lastMessage,
                                time: data[index].timestamp!,
-                               readStatus: ReadStatus.newMessage,
+                               readStatus: data[index].readStatus,
                                onTap: () {
                                  print("Chat banner pressed");
                                });

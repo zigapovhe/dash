@@ -3,6 +3,7 @@ class Constants {
 
   // Local Storage Keys
   static const String firstLoginKey = 'firstLogin';
+  static const String userObjectKey = 'userObject';
 
   static const String loginName = "Prijava";
   static const String loginRoute = "/login";

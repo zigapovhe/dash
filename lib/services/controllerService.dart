@@ -3,19 +3,24 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ControllerServices {
-  Stream<DatabaseEvent> getChatRooms() {
-    DatabaseReference chatsPreviewRef = FirebaseDatabase.instance.ref('chats/');
+  Stream<DatabaseEvent> getChatPreviews(String userId) {
+    DatabaseReference chatsPreviewRef = FirebaseDatabase.instance.ref('chatPreview/users/$userId');
     return chatsPreviewRef.onValue;
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument(String userId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument(String userId) {
     final collectionRef = FirebaseFirestore.instance.collection('users');
-    return await collectionRef.doc(userId).get();
+    return collectionRef.doc(userId).get();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
     final collectionRef = FirebaseFirestore.instance.collection('users');
     return collectionRef.snapshots();
+  }
+
+  Future<void> updateUsersDocument(String userId, String name) {
+    final userDocRef = FirebaseFirestore.instance.collection("users").doc(userId);
+    return userDocRef.update({"firstLogin": false, "name": name});
   }
 }
 

@@ -1,4 +1,5 @@
-import 'package:dash/state/generalState.dart';
+import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ class AuthService {
   //  SignIn the user using Email and Password
   Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context, WidgetRef ref) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password).then((value) => ref.read(getUserDocumentProvider(value.user!.uid)));
+      await _auth.signInWithEmailAndPassword(email: email, password: password).then((value) => ref.read(getUserDocumentProvider));
     } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,
@@ -67,7 +68,8 @@ class AuthService {
   }
 
   //  SignOut the current user
-  Future<void> signOut() async {
+  Future<void> signOut(WidgetRef ref) async {
+    ref.read(memberProvider.notifier).clearMember();
     await _auth.signOut();
   }
 }

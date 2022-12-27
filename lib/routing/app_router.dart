@@ -1,4 +1,3 @@
-import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/constants.dart';
 import 'package:dash/routing/widgets/BottomNavigationBarItem.dart';
 import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
@@ -9,7 +8,8 @@ import 'package:dash/screens/landing/registerScreen.dart';
 import 'package:dash/screens/mainScreens/createChatScreen/createChatScreen.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
 import 'package:dash/screens/mainScreens/profileScreen/profileScreen.dart';
-import 'package:dash/state/generalState.dart';
+import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/userStateNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -50,12 +50,13 @@ final routerProvider = Provider((ref) {
   final authState = ref.watch(currentUserProvider);
 
 
-  Future <String> returnDashboardScreen() async{
-    bool firstLogin = ref.read(getUserDocumentProvider(authState.value!.uid)).value?.firstLogin ?? true;
-    if(firstLogin) {
-      return Constants.onboardingRoute;
-    } else {
+  Future<String> returnDashboardScreen() async {
+    final user = await ref.watch(getUserDocumentProvider.future);
+
+    if (user?.firstLogin == false) {
       return Constants.dashboardRoute;
+    } else {
+      return Constants.onboardingRoute;
     }
   }
 
@@ -112,6 +113,12 @@ final routerProvider = Provider((ref) {
         // This has to do with how the FirebaseAuth SDK handles the "log-in" state
         // Returning `null` means "we are not authorized"
         final isAuth = authState.valueOrNull != null;
+
+        final isOnOnboarding = state.location == Constants.onboardingRoute;
+
+        if (isAuth && isOnOnboarding && ref.read(memberProvider)!.firstLogin == false) {
+          return Constants.dashboardRoute;
+        }
 
         final isOnLanding = state.location == Constants.loginRoute || state.location == Constants.registerRoute;
         if (isOnLanding) {

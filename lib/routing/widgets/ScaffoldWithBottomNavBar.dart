@@ -1,5 +1,5 @@
 import 'package:dash/helpers/colors.dart';
-import 'package:dash/state/generalState.dart';
+import 'package:dash/state/firebaseState.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +42,6 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(currentUserProvider);
     if(!kIsWeb){
       final String title = widget.tabs[_currentIndex].label;
       return Scaffold(
@@ -56,7 +55,7 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
             icon: const Icon(Icons.arrow_back_ios),
           ) : null,
         ) : null,
-        body: widget.child,
+        body: Material(child: widget.child),
         bottomNavigationBar: BottomNavigationBar(
           elevation: 2,
           backgroundColor: Colors.white,
@@ -71,57 +70,59 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
       );
     } else {
       return Scaffold(
-        body: Row(
-          children: [
-            SidebarX(
-              controller: _webController,
-              theme: SidebarXTheme(
-                //margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.05),
-                  //borderRadius: BorderRadius.circular(20),
-                ),
-                itemTextPadding: const EdgeInsets.only(left: 30),
-                selectedItemTextPadding: const EdgeInsets.only(left: 30),
-                selectedIconTheme: const IconThemeData(
-                  color: Colors.black,
-                  size: 20,
-                ),
-                selectedItemDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: ColorsHelper.accent.withOpacity(0.37),
-                ),
-                iconTheme: IconThemeData(
-                  color: Colors.black.withOpacity(0.5),
-                  size: 20,
-                ),
-              ),
-              extendedTheme: SidebarXTheme(
-                hoverColor: Colors.grey,
-                width: 200,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.05),
-                ),
-                textStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontWeight: FontWeight.bold),
-                selectedIconTheme: const IconThemeData(
-                  color: Colors.black,
-                  size: 20,
-                ),
-                selectedTextStyle: const TextStyle(
+        body: Material(
+          child: Row(
+            children: [
+              SidebarX(
+                controller: _webController,
+                theme: SidebarXTheme(
+                  //margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.05),
+                    //borderRadius: BorderRadius.circular(20),
+                  ),
+                  itemTextPadding: const EdgeInsets.only(left: 30),
+                  selectedItemTextPadding: const EdgeInsets.only(left: 30),
+                  selectedIconTheme: const IconThemeData(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold
+                    size: 20,
+                  ),
+                  selectedItemDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: ColorsHelper.accent.withOpacity(0.37),
+                  ),
+                  iconTheme: IconThemeData(
+                    color: Colors.black.withOpacity(0.5),
+                    size: 20,
+                  ),
                 ),
-                margin: const EdgeInsets.only(right: 10),
-              ),
-              items: List.generate(widget.tabs.length, (index) => SidebarXItem(
-                icon: widget.tabs[index].webIcon,
-                label: widget.tabs[index].label,
-                onTap: () => _onItemTapped(context, index),
-              )),
+                extendedTheme: SidebarXTheme(
+                  hoverColor: Colors.grey,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.05),
+                  ),
+                  textStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontWeight: FontWeight.bold),
+                  selectedIconTheme: const IconThemeData(
+                    color: Colors.black,
+                    size: 20,
+                  ),
+                  selectedTextStyle: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
+                  margin: const EdgeInsets.only(right: 10),
+                ),
+                items: List.generate(widget.tabs.length, (index) => SidebarXItem(
+                  icon: widget.tabs[index].webIcon,
+                  label: widget.tabs[index].label,
+                  onTap: () => _onItemTapped(context, index),
+                )),
 
-            ),
-            Expanded(child: widget.child),
-          ],
+              ),
+              Expanded(child: widget.child),
+            ],
+          ),
         ),
       );
     }
