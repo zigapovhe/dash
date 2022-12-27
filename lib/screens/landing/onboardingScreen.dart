@@ -43,7 +43,7 @@ class OnboardingScreen extends ConsumerWidget {
                   controller: nameController,
                   decoration: InputDecoration(
                     hintText: 'Enter your full name',
-                    prefixText: "#${user.tag} ",
+                    prefixText: "#${user?.tag} ",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
