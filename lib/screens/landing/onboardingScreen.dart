@@ -1,11 +1,8 @@
-import 'package:dash/helpers/constants.dart';
 import 'package:dash/screens/widgets/customButton.dart';
-import 'package:dash/state/firebaseState.dart';
-import 'package:dash/state/localStorageState.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -53,7 +50,7 @@ class OnboardingScreen extends ConsumerWidget {
               SizedBox(height: screenHeight * 0.05,),
               CustomButton(label: "Save", onTap: () async {
                 ref.read(memberProvider.notifier).updateName(name: nameController.text);
-                await ref.read(updateUserDocumentProvider(nameController.text).future);
+                await ref.read(updateUserDocumentProvider(name: nameController.text).future);
               }),
             ],
           ),

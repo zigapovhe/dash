@@ -10,7 +10,7 @@ import 'package:dash/screens/mainScreens/createChatScreen/createChatScreen.dart'
 import 'package:dash/screens/mainScreens/dashboardScreen/dashboardScreen.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/detailedChatScreen.dart';
 import 'package:dash/screens/mainScreens/profileScreen/profileScreen.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,7 +53,7 @@ final routerProvider = Provider((ref) {
 
 
   Future<String> returnDashboardScreen() async {
-    final user = await ref.watch(getUserDocumentProvider.future);
+    final user = await ref.read(getUserDocumentProvider.future);
 
     if (user?.firstLogin == false) {
       return Constants.dashboardRoute;

@@ -1,9 +1,8 @@
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/accountSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsModal.dart';
-import 'package:dash/screens/widgets/customButton.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

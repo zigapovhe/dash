@@ -1,4 +1,4 @@
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

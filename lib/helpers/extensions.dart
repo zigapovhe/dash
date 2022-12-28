@@ -11,6 +11,6 @@ extension Abbreviation on String {
         abbreviation = this;
       }
     }
-    return abbreviation;
+    return abbreviation.toUpperCase();
   }
 }

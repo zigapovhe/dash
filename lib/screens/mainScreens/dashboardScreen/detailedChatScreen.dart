@@ -1,8 +1,6 @@
 import 'package:dash/dtos/chatPreviewDto/chatPreviewDto.dart';
-import 'package:dash/helpers/colors.dart';
-import 'package:dash/helpers/extensions.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBubble.dart';
-import 'package:dash/state/firebaseState.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
