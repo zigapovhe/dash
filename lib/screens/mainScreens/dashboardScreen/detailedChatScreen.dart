@@ -1,4 +1,5 @@
 import 'package:dash/dtos/chatPreviewDto/chatPreviewDto.dart';
+import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/extensions.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBubble.dart';
@@ -14,6 +15,9 @@ class DetailedChatScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chatData = ref.watch(fullChatProvider(chatPreview.chatId));
+    if(chatPreview.readStatus == ReadStatus.newMessage) {
+      ref.read(updateReadStatusProvider(chatPreview: chatPreview));
+    }
     final currentUser = ref.watch(currentUserProvider);
     final TextEditingController messageController = TextEditingController();
 

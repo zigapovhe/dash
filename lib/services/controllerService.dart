@@ -31,7 +31,7 @@ class ControllerServices {
     chatsPreviewRef.set({
       'chatId': chatId,
       'lastMessage': '',
-      'readStatus': 3,
+      'readStatus': 2,
       'userIds': selectedMembers.map((e) => e.uid).toList(),
       'timestamp': RTDB.ServerValue.timestamp,
       'title': selectedMembers.where((e) => e.uid != member.uid).map((e) => e.name).toList().join(', '),
@@ -47,12 +47,38 @@ class ControllerServices {
     });
 
     for (var userId in chatPreview.userIds) {
-      RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
-      chatPreviewRef.update({
-        'lastMessage': message,
-        'readStatus': 3,
-        'timestamp': RTDB.ServerValue.timestamp,
-      });
+      if(userId == currentUserId){
+        RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
+        chatPreviewRef.update({
+          'lastMessage': message,
+          'readStatus': 0,
+          'timestamp': RTDB.ServerValue.timestamp,
+        });
+      } else {
+        RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
+        chatPreviewRef.update({
+          'lastMessage': message,
+          'readStatus': 2,
+          'timestamp': RTDB.ServerValue.timestamp,
+        });
+      }
+
+    }
+  }
+
+  Future<void> updateReadStatus(ChatPreview chatPreview, String currentUserId) async {
+    for (var userId in chatPreview.userIds) {
+      if(userId == currentUserId){
+        RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
+        chatPreviewRef.update({
+          'readStatus': 3,
+        });
+      } else {
+        RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
+        chatPreviewRef.update({
+          'readStatus': 1,
+        });
+      }
     }
   }
   

@@ -43,6 +43,11 @@ Future<void> sendMessage(SendMessageRef ref, {required String message, required 
   ref.read(controllerProvider).sendMessage(message, chatPreview, currentUserId!);
 }
 
+@riverpod
+Future<void> updateReadStatus(UpdateReadStatusRef ref, {required ChatPreview chatPreview}) async {
+  final currentUserId = ref.read(currentUserProvider).value?.uid;
+  ref.read(controllerProvider).updateReadStatus(chatPreview, currentUserId!);
+}
 
 @riverpod
 Future<Member> getUserDocument(GetUserDocumentRef ref) async {
