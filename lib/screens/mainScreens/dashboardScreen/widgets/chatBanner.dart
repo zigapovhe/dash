@@ -23,16 +23,6 @@ class ChatBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String timeString;
-    DateTime now = DateTime.now();
-    if(time.year == now.year && time.month == now.month && time.day == now.day){
-      timeString = "${time.hour}:${time.minute}";
-    } else if (time.year == now.year){
-      timeString = "${time.day}.${time.month}";
-    } else {
-      timeString = "${time.day}.${time.month}.${time.year}";
-    }
-
     Widget indicator;
     if (readStatus == ReadStatus.newMessage) {
       indicator = Container(
@@ -98,7 +88,7 @@ class ChatBanner extends StatelessWidget {
                 trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(timeString, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+                    Text(time.toPrettyString, style: const TextStyle(color: Colors.grey, fontSize: 15)),
                     const SizedBox(height: 5),
                     indicator
                   ],

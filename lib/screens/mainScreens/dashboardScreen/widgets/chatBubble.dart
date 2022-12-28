@@ -1,4 +1,5 @@
 import 'package:dash/dtos/chatDto/chatDto.dart';
+import 'package:dash/helpers/extensions.dart';
 import 'package:flutter/material.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -29,7 +30,7 @@ class ChatBubble extends StatelessWidget {
                 Text(chat.message, style: const TextStyle(color: Colors.white)),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
-                  child: Text("${chat.timestamp.hour}:${chat.timestamp.minute}", style: const TextStyle(fontSize: 11, color: Colors.white)),
+                  child: Text(chat.timestamp.toPrettyHour, style: const TextStyle(fontSize: 11, color: Colors.white)),
                 ),
               ],
             ),

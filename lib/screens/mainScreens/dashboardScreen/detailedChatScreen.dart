@@ -1,4 +1,6 @@
 import 'package:dash/dtos/chatPreviewDto/chatPreviewDto.dart';
+import 'package:dash/helpers/colors.dart';
+import 'package:dash/helpers/extensions.dart';
 import 'package:dash/screens/mainScreens/dashboardScreen/widgets/chatBubble.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class DetailedChatScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chatData = ref.watch(fullChatProvider(chatPreview.chatId));
     final currentUser = ref.watch(currentUserProvider);
+    final TextEditingController messageController = TextEditingController();
 
     final screenHeight = MediaQuery.of(context).size.height;
     return Column(
@@ -44,7 +47,7 @@ class DetailedChatScreen extends ConsumerWidget {
           return Expanded(
             child: Container(
               margin: const EdgeInsets.only(top: 15),
-              child: ListView.builder(
+              child: data.isNotEmpty ? ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
@@ -53,6 +56,22 @@ class DetailedChatScreen extends ConsumerWidget {
                       sentByMe: data[index].userId == currentUser.value!.uid,
                   );
                 },
+              ) : Column(
+                children: [
+                  ClipOval(
+                    child: Material(
+                      color: ColorsHelper.accent.withOpacity(0.5), // button color
+                      child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Center(child: Text(chatPreview.title.abbreviation, style: const TextStyle(color: Colors.white, fontSize: 18),))),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  Text(chatPreview.title, style: const TextStyle(color: Colors.black, fontSize: 15)),
+                  SizedBox(height: screenHeight * 0.02,),
+                  const Text("Začnite pogovor z prvim sporočilom", style: TextStyle(color: Colors.grey, fontSize: 15)),
+                ],
               ),
             ),
           );
@@ -61,7 +80,48 @@ class DetailedChatScreen extends ConsumerWidget {
           return Center(child: Text("Error: $e"));
         }, loading: () {
           return const Center(child: CircularProgressIndicator());
-        })
+        }),
+
+        //Send message
+        Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10,),
+                      Expanded(
+                        child: TextField(
+                          controller: messageController,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Sporočilo",
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () {
+                             ref.read(sendMessageProvider(chatPreview: chatPreview, message: messageController.text));
+                             messageController.clear();
+                          }
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+        ])
+        ),
+
+
       ],
     );
   }

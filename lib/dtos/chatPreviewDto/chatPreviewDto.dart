@@ -14,6 +14,7 @@ class ChatPreview with _$ChatPreview {
     required DateTime? timestamp,
     @ReadStatusConverter()
     required ReadStatus readStatus,
+    required List<String> userIds,
   }) = _ChatPreview;
 
   factory ChatPreview.fromJson(Map<String, dynamic> json) => _$ChatPreviewFromJson(json);

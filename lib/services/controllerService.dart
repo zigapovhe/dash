@@ -32,9 +32,28 @@ class ControllerServices {
       'chatId': chatId,
       'lastMessage': '',
       'readStatus': 3,
+      'userIds': selectedMembers.map((e) => e.uid).toList(),
       'timestamp': RTDB.ServerValue.timestamp,
       'title': selectedMembers.where((e) => e.uid != member.uid).map((e) => e.name).toList().join(', '),
     });
+  }
+
+  Future<void> sendMessage(String message, ChatPreview chatPreview, String currentUserId) async {
+    RTDB.DatabaseReference fullChatRef = RTDB.FirebaseDatabase.instance.ref('full_chats/${chatPreview.chatId}').push();
+    fullChatRef.set({
+      'message': message,
+      'userId': currentUserId,
+      'timestamp': RTDB.ServerValue.timestamp,
+    });
+
+    for (var userId in chatPreview.userIds) {
+      RTDB.DatabaseReference chatPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$userId/${chatPreview.chatId}');
+      chatPreviewRef.update({
+        'lastMessage': message,
+        'readStatus': 3,
+        'timestamp': RTDB.ServerValue.timestamp,
+      });
+    }
   }
   
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument(String userId) {
