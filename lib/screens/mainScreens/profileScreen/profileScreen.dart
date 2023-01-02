@@ -1,6 +1,7 @@
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/accountSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsModal.dart';
+import 'package:dash/screens/mainScreens/profileScreen/modals/securitySettingsModal.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ class ProfileScreen extends ConsumerWidget {
                     onTap: (){
                       showModalBottomSheet(
                           context: context,
-                          builder: (context) => const AccountSettingsModal()
+                          builder: (context) => const SecuritySettingsModal() 
                       );
                     }
                 ),
