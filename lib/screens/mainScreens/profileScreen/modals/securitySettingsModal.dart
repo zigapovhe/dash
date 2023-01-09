@@ -12,9 +12,9 @@ class SecuritySettingsModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.read(authenticationProvider);
     final screenWidth = MediaQuery.of(context).size.width;
-    final passwordController = TextEditingController();
-    final confirmPasswordController = TextEditingController();
+    final emailController = TextEditingController();
     //Bottom modal sheet appbar with cancel, title and save button
     return Column(
       children: [
@@ -28,13 +28,17 @@ class SecuritySettingsModal extends ConsumerWidget {
                 },
                 child: const Text('Cancel')),
             const Text(
-              'Security settings',
+              'Reset your password',
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            TextButton(onPressed: () async {}, child: const Text('Save')),
+            TextButton(
+                onPressed: () async {
+                  auth.resetPassword('', context);
+                },
+                child: const Text('Send')),
           ],
         ),
 
@@ -44,35 +48,17 @@ class SecuritySettingsModal extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-            const Text("Change password"),
+            const Text(""),
             const SizedBox(height: 10),
             //Field for name
             SizedBox(
               width: screenWidth * 0.8,
               child: TextField(
-                controller: passwordController,
-                obscureText: true,
+                controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: 'Enter your Password',
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text("Confirm password"),
-            const SizedBox(height: 10),
-            //Field for name
-            SizedBox(
-              width: screenWidth * 0.8,
-              child: TextField(
-                controller: confirmPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm password',
-                  hintText: 'Confirm your Password',
+                  labelText: 'Email address',
+                  hintText: 'Enter your email for the recovery password',
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
                 ),
               ),

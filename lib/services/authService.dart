@@ -15,9 +15,12 @@ class AuthService {
   User? get currentUser => _auth.currentUser;
 
   //  SignIn the user using Email and Password
-  Future<void> signInWithEmailAndPassword(String email, String password, BuildContext context, WidgetRef ref) async {
+  Future<void> signInWithEmailAndPassword(String email, String password,
+      BuildContext context, WidgetRef ref) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password).then((value) => ref.read(getUserDocumentProvider));
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => ref.read(getUserDocumentProvider));
     } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,
@@ -37,27 +40,28 @@ class AuthService {
   }
 
   // SignUp the user using Email and Password
-  Future<void> signUpWithEmailAndPassword(String email, String password, BuildContext context) async {
+  Future<void> signUpWithEmailAndPassword(
+      String email, String password, BuildContext context) async {
     try {
-      _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      ).then((value) => _auth.signOut());
-
-
+      _auth
+          .createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => _auth.signOut());
     } on FirebaseAuthException catch (e) {
       await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-              title: Text('Error Occured'),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(ctx).pop();
-                    },
-                    child: Text("OK"))
-              ]));
+                  title: Text('Error Occured'),
+                  content: Text(e.toString()),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text("OK"))
+                  ]));
     } catch (e) {
       if (e == 'email-already-in-use') {
         print('Email already in use.');
@@ -71,5 +75,27 @@ class AuthService {
   Future<void> signOut(WidgetRef ref) async {
     ref.read(memberProvider.notifier).clearMember();
     await _auth.signOut();
+  }
+
+  Future<void> resetPassword(String email, BuildContext context) async {
+    try {
+      String userEmail = _auth.currentUser?.email ?? email;
+      _auth
+          .sendPasswordResetEmail(email: userEmail)
+          .then((value) => _auth.signOut());
+    } on FirebaseAuthException catch (e) {
+      await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                  title: Text('Error Occured'),
+                  content: Text(e.toString()),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                        child: Text("OK"))
+                  ]));
+    }
   }
 }

@@ -98,7 +98,9 @@ class RegisterScreen extends ConsumerWidget {
                                       },
                                     ),
                                   ),
-                                  TextButton(onPressed: (){}, child: const Text("Pozabljeno geslo?")),
+                                  TextButton(onPressed: (){
+                                    GoRouter.of(context).go(Constants.forgotPasswordRoute);
+                                  }, child: const Text("Pozabljeno geslo?")),
                                   TextButton(onPressed: (){
                                     GoRouter.of(context).go(Constants.loginRoute);
                                   }, child: const Text("Prijava"))

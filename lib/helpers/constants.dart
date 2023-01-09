@@ -27,4 +27,6 @@ class Constants {
   static const String profileName = "Profil";
   static const String profileRoute = "/profile";
 
+  static const String forgotPasswordName = "Pozabljeno geslo";
+  static const String forgotPasswordRoute = "/forgot-password";
 }
