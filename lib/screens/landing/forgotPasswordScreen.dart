@@ -8,15 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends ConsumerWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends ConsumerWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.read(authenticationProvider);
     final formKey = GlobalKey<FormState>();
     TextEditingController emailController = TextEditingController();
-    TextEditingController passController = TextEditingController();
 
     return Scaffold(
         backgroundColor: ColorsHelper.background,
@@ -29,27 +28,28 @@ class LoginScreen extends ConsumerWidget {
               child: Align(
                 alignment: Alignment.center,
                 child: Container(
-                  decoration: kIsWeb ? BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(
-                            1.0,
-                            2.5,
-                          ), //Offset
-                          blurRadius: 5.0,
-                          spreadRadius: 0.1,
-                        ), //BoxShadow
-                        BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 0.0,
-                          spreadRadius: 0.0,
-                        ), //BoxShadow
-                      ]
-                  ) : null,
+                  decoration: kIsWeb
+                      ? BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(
+                                  1.0,
+                                  2.5,
+                                ), //Offset
+                                blurRadius: 5.0,
+                                spreadRadius: 0.1,
+                              ), //BoxShadow
+                              BoxShadow(
+                                color: Colors.white,
+                                offset: Offset(0.0, 0.0),
+                                blurRadius: 0.0,
+                                spreadRadius: 0.0,
+                              ), //BoxShadow
+                            ])
+                      : null,
                   child: SizedBox(
                     width: kIsWeb ? screenWidth * 0.3 : screenWidth * 0.9,
                     height: screenHeight * 0.6,
@@ -57,8 +57,11 @@ class LoginScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Dash Prijava", style: TextStyle(fontSize: 30, color: Colors.black)),
-                        Padding(padding: const EdgeInsets.fromLTRB(40,20,40,20),
+                        const Text("Dash pozabljeno geslo",
+                            style:
+                                TextStyle(fontSize: 30, color: Colors.black)),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(40, 20, 40, 20),
                           child: Align(
                             alignment: Alignment.center,
                             child: Container(
@@ -72,32 +75,31 @@ class LoginScreen extends ConsumerWidget {
                                       mainText: "Email naslov",
                                       isPassword: false,
                                       controller: emailController,
-                                      enableValidator: true
-                                  ),
-                                  CredentialTextField(
-                                      mainText: "Geslo",
-                                      isPassword: true,
-                                      controller: passController,
-                                      enableValidator: true,
-                                      allowObscureChange: true,
-                                  ),
+                                      enableValidator: true),
                                   Container(
                                     margin: const EdgeInsets.only(top: 20),
                                     child: CustomButton(
-                                      label: "Prijava",
+                                      label: "Pošlji",
                                       onTap: () async {
-                                        if(formKey.currentState!.validate()) {
-                                          await auth.signInWithEmailAndPassword(emailController.text, passController.text, context, ref);
+                                        if (formKey.currentState!.validate()) {
+                                          auth.resetPassword(emailController.text, context);
+                                          GoRouter.of(context).go(Constants.loginRoute);
                                         }
                                       },
                                     ),
                                   ),
-                                  TextButton(onPressed: (){
-                                    GoRouter.of(context).go(Constants.forgotPasswordRoute);
-                                  }, child: const Text("Pozabljeno geslo?")),
-                                  TextButton(onPressed: (){
-                                    GoRouter.of(context).go(Constants.registerRoute);
-                                  }, child: const Text("Registracija"))
+                                  TextButton(
+                                      onPressed: () {
+                                        GoRouter.of(context)
+                                            .go(Constants.loginRoute);
+                                      },
+                                      child: const Text("Prijava")),
+                                  TextButton(
+                                      onPressed: () {
+                                        GoRouter.of(context)
+                                            .go(Constants.registerRoute);
+                                      },
+                                      child: const Text("Registracija"))
                                 ],
                               ),
                             ),
@@ -110,7 +112,6 @@ class LoginScreen extends ConsumerWidget {
               ),
             );
           },
-        )
-    );
+        ));
   }
 }

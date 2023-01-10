@@ -3,6 +3,7 @@ import 'package:dash/helpers/constants.dart';
 import 'package:dash/routing/widgets/BottomNavigationBarItem.dart';
 import 'package:dash/routing/widgets/ScaffoldWithBottomNavBar.dart';
 import 'package:dash/screens/errorScreen.dart';
+import 'package:dash/screens/landing/forgotPasswordScreen.dart';
 import 'package:dash/screens/landing/loginScreen.dart';
 import 'package:dash/screens/landing/onboardingScreen.dart';
 import 'package:dash/screens/landing/registerScreen.dart';
@@ -40,7 +41,7 @@ final routerProvider = Provider((ref) {
 
 
  */
-     ScaffoldWithNavBarTabItem(
+    ScaffoldWithNavBarTabItem(
       initialLocation: Constants.profileRoute,
       icon: Icon(Icons.person),
       webIcon: Icons.person,
@@ -50,7 +51,6 @@ final routerProvider = Provider((ref) {
   ];
 
   final authState = ref.watch(currentUserProvider);
-
 
   Future<String> returnDashboardScreen() async {
     final user = await ref.read(getUserDocumentProvider.future);
@@ -75,30 +75,30 @@ final routerProvider = Provider((ref) {
             GoRoute(
               path: Constants.dashboardRoute,
               name: Constants.dashboardName,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                  child: DashboardScreen()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: DashboardScreen()),
               routes: <RouteBase>[
                 /// The details screen to display stacked on the inner Navigator.
                 GoRoute(
                     path: Constants.chatRoute,
                     name: Constants.detailedChatName,
                     pageBuilder: (context, state) => NoTransitionPage(
-                        child: DetailedChatScreen(chatPreview: state.extra as ChatPreview),
-                    )
-                ),
+                          child: DetailedChatScreen(
+                              chatPreview: state.extra as ChatPreview),
+                        )),
               ],
             ),
             GoRoute(
               path: Constants.createChatRoute,
               name: Constants.createChatName,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CreateChatScreen()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: CreateChatScreen()),
             ),
             GoRoute(
               path: Constants.profileRoute,
               name: Constants.profileName,
-              pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ProfileScreen()),
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileScreen()),
             ),
           ],
         ),
@@ -114,8 +114,11 @@ final routerProvider = Provider((ref) {
             path: Constants.registerRoute,
             name: Constants.registerName,
             builder: (context, state) => const RegisterScreen()),
+        GoRoute(
+            path: Constants.forgotPasswordRoute,
+            name: Constants.forgotPasswordName,
+            builder: (context, state) => const ForgotPasswordScreen()),
       ],
-
       redirect: (context, state) async {
         // If our async state is loading, don't perform redirects, yet
         if (authState.isLoading || authState.hasError) return null;
@@ -128,11 +131,15 @@ final routerProvider = Provider((ref) {
 
         final isOnOnboarding = state.location == Constants.onboardingRoute;
 
-        if (isAuth && isOnOnboarding && ref.read(memberProvider)!.firstLogin == false) {
+        if (isAuth &&
+            isOnOnboarding &&
+            ref.read(memberProvider)!.firstLogin == false) {
           return Constants.dashboardRoute;
         }
 
-        final isOnLanding = state.location == Constants.loginRoute || state.location == Constants.registerRoute;
+        final isOnLanding = state.location == Constants.loginRoute ||
+            state.location == Constants.registerRoute ||
+            state.location == Constants.forgotPasswordRoute;
         if (isOnLanding) {
           return isAuth ? await returnDashboardScreen() : state.location;
         }
@@ -148,7 +155,5 @@ final routerProvider = Provider((ref) {
           child: ErrorScreen(
             state: state,
             error: null,
-          )
-      )
-  );
+          )));
 });
