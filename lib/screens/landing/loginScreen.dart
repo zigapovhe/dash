@@ -102,7 +102,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       },
                                     ),
                                   ),
-                                  TextButton(onPressed: (){}, child: const Text("Pozabljeno geslo?")),
+                                  TextButton(onPressed: (){
+                                    GoRouter.of(context).go(Constants.forgotPasswordRoute);
+                                  }, child: const Text("Pozabljeno geslo?")),
                                   TextButton(onPressed: (){
                                     GoRouter.of(context).go(Constants.registerRoute);
                                   }, child: const Text("Registracija"))
