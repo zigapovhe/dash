@@ -11,10 +11,7 @@ class Constants {
   static const String registerName = "Registracija";
   static const String registerRoute = "/register";
 
-  static const String onboardingScreenName = "OnBoardingScreen";
-  static const String onboardingRoute = "/onboarding";
-
-  static const String dashboardName = ".";
+  static const String dashboardName = "Chats";
   static const String dashboardRoute = "/dashboard";
 
   static const String detailedChatName = "Klepet";

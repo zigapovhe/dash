@@ -8,22 +8,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final auth = ref.read(authenticationProvider);
-    final formKey = GlobalKey<FormState>();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passController = TextEditingController();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+   bool passwordVisible = false;
+   final formKey = GlobalKey<FormState>();
+   TextEditingController emailController = TextEditingController();
+   TextEditingController passController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = ref.read(authenticationProvider);
     return Scaffold(
         backgroundColor: ColorsHelper.background,
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
             double screenWidth = constraints.maxWidth;
-            double screenHeight = constraints.maxHeight;
             return Form(
               key: formKey,
               child: Align(
@@ -52,7 +57,6 @@ class LoginScreen extends ConsumerWidget {
                   ) : null,
                   child: SizedBox(
                     width: kIsWeb ? screenWidth * 0.3 : screenWidth * 0.9,
-                    height: screenHeight * 0.6,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -80,6 +84,12 @@ class LoginScreen extends ConsumerWidget {
                                       controller: passController,
                                       enableValidator: true,
                                       allowObscureChange: true,
+                                      isPasswordVisible: passwordVisible,
+                                      onVisibilityTap: () {
+                                        setState(() {
+                                          passwordVisible = !passwordVisible;
+                                        });
+                                      },
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(top: 20),

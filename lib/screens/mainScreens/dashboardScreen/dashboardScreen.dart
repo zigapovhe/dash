@@ -13,6 +13,7 @@ class DashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final chatPreviews = ref.watch(chatPreviewsProvider);
     final screenHeight = MediaQuery.of(context).size.height;
+    final searchController = TextEditingController();
 
     return SafeArea(
       child: Material(
@@ -54,6 +55,10 @@ class DashboardScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextFormField(
+                  controller: searchController,
+                  onChanged: (String value){
+                    print(value);
+                  },
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: "Iskanje",

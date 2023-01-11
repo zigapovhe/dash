@@ -48,10 +48,10 @@ class CreateChatScreen extends ConsumerWidget {
                     String name = users[index].name ?? "Dash user";
 
                     return InkWell(
-                      onTap: (){
+                      onTap: () async {
                         Member me = users.firstWhere((element) => element.uid == currentUser.value!.uid);
                         List<Member> selectedUsers = [me, users[index]];
-                        ref.read(createChatProvider(selectedMembers: selectedUsers));
+                        await ref.read(createChatProvider(selectedMembers: selectedUsers).future);
                       },
                       child: ListTile(
                         leading: ClipOval(

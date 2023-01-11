@@ -16,7 +16,7 @@ class MemberNotifier extends StateNotifier<Member?> {
   }
 
   void updateName({required String name}){
-    state = state!.copyWith(name: name, firstLogin: false);
+    state = state!.copyWith(name: name);
   }
 
   void clearMember(){

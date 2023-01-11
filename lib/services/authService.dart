@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,7 +43,7 @@ class AuthService {
       _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      ).then((value) => _auth.signOut());
+      ).then((value) async => await FirebaseFunctions.instance.httpsCallable('createUserPath').call().then((value) => _auth.signOut()));
 
 
     } on FirebaseAuthException catch (e) {
