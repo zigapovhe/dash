@@ -11,6 +11,7 @@ class SecuritySettingsModal extends ConsumerWidget {
     final auth = ref.read(authenticationProvider);
     //Bottom modal sheet appbar with cancel, title and save button
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         //AppBar
         Row(

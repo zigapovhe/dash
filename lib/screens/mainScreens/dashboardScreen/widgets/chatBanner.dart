@@ -62,7 +62,9 @@ class ChatBanner extends StatelessWidget {
               swipeThreshold: 0.2,
               direction: SwipeDirection.horizontal,
               onSwiped: (direction) {
-                // Here call setState to update state
+                if(direction == SwipeDirection.endToStart){
+                  print("Deleting this conversation...");
+                }
               },
               backgroundBuilder: (context, direction, progress) {
                 if (direction == SwipeDirection.endToStart) {
