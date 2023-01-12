@@ -38,7 +38,7 @@ class ChatBubble extends ConsumerWidget {
                   children: [
                     Padding(
                     padding: const EdgeInsets.only(bottom: 0.0),
-                    child: Text(chat.sender, style: const TextStyle(fontSize: 11, color: Colors.white)),
+                    child: Text(chat.sender ?? "no name", style: const TextStyle(fontSize: 11, color: Colors.white)),
                     ),
                     
                     Padding(
