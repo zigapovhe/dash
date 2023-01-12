@@ -28,6 +28,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         backgroundColor: ColorsHelper.background,
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
+            double screenHeight = constraints.maxHeight;
             double screenWidth = constraints.maxWidth;
             return Form(
               key: formKey,
@@ -57,6 +58,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ) : null,
                   child: SizedBox(
                     width: kIsWeb ? screenWidth * 0.3 : screenWidth * 0.9,
+                    height: kIsWeb ? screenHeight * 0.5 : screenHeight * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -107,6 +107,12 @@ class DetailedChatScreen extends ConsumerWidget {
                       Expanded(
                         child: TextField(
                           autofocus: true,
+                          onSubmitted: (_){
+                            if(messageController.text.isNotEmpty){
+                              ref.read(sendMessageProvider(chatPreview: chatPreview, message: messageController.text));
+                            }
+                            messageController.clear();
+                          },
                           controller: messageController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
