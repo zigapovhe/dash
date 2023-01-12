@@ -19,6 +19,11 @@ Dash klepet:
 
 Dash glavna Stran
 ![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot%20from%202023-01-12%2019-08-05.png)
+
+Mobile:
+![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot_20230112-220200.png)
+
+![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot_20230112-220209.png)
 ### Requirements
 
 Make sure you have met the following requirements:
