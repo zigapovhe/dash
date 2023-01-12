@@ -1,6 +1,15 @@
-# Dash App README
+# Dash
+### Creators
+Žiga Povhe - 63190236
+Lan Pavletič - 63210530
 
-App for Realtime chatting
+Aplikacije za klepet
+
+Najprej nas aplikacija prosi, da se vano prijavimo. Če računa še nimamo ga lahko ustvarimo, če smo pozabili geslo lahko navedemo naš email naslov, na katerega bomo prejeli možnost izbire novega gesla. 
+
+Ko smo prijavljeni aplikacijo je prva stran "dashboard", kjer imamo vse naše pogovor. Pogovore lahko brišemo, beremo ali ustvarjamo. Ustvarimo ga tako, da v desnem kotu kliknemo znak +, ki pa nas privede na ekran, kjer lahko vidimo vse uporabnike, in si izberemo s kom se želimo pogovarjati.
+
+Na Dashbordu, lahko kliknemo na posamezne pogovore in s tem odpremo celoten pogovor, kjer vidmo vsa poslana sporočila in jih sami tudi pošiljamo.
 
 ### Requirements
 
