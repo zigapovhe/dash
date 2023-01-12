@@ -9,7 +9,6 @@ class Member with _$Member {
     required String email,
     required String? name,
     required String tag,
-    required bool firstLogin,
   }) = _Member;
 
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);

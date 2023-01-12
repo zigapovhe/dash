@@ -88,7 +88,7 @@ class _CredentialTextFieldState extends State<CredentialTextField> {
                 onTap: widget.onVisibilityTap,
                 child: Container(
                   color: Colors.transparent,
-                  child: Icon(icon, color: Colors.white),
+                  child: Icon(icon, color: Colors.black54),
                 ),
               ),
             ) : const SizedBox(),

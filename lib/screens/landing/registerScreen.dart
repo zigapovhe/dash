@@ -8,24 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class RegisterScreen extends ConsumerWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
+  bool password1Visible = false;
+  bool password2Visible = false;
+
+  @override
+  Widget build(BuildContext context) {
     final auth = ref.read(authenticationProvider);
-    final formKey = GlobalKey<FormState>();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passController = TextEditingController();
-    TextEditingController confirmPassController = TextEditingController();
 
     return Scaffold(
         backgroundColor: ColorsHelper.background,
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            double screenWidth = constraints.maxWidth;
-            double screenHeight = constraints.maxHeight;
-            return Form(
+        body: Form(
               key: formKey,
               child: Align(
                 alignment: Alignment.center,
@@ -51,71 +56,90 @@ class RegisterScreen extends ConsumerWidget {
                         ), //BoxShadow
                       ]
                   ) : null,
-                  child: SizedBox(
-                    width: kIsWeb ? screenWidth * 0.3 : screenWidth * 0.9,
-                    height: screenHeight * 0.6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Dash Registracija", style: TextStyle(fontSize: 30, color: Colors.black)),
-                        Padding(padding: const EdgeInsets.fromLTRB(40,20,40,20),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: kIsWeb ? screenWidth * 0.25 : null,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  CredentialTextField(
-                                      mainText: "Email naslov",
-                                      isPassword: false,
-                                      controller: emailController,
-                                      enableValidator: true
-                                  ),
-                                  CredentialTextField(
-                                      mainText: "Geslo",
-                                      isPassword: true,
-                                      controller: passController,
-                                      enableValidator: true
-                                  ),
-                                  CredentialTextField(
-                                      mainText: "Ponovi geslo",
-                                      isPassword: true,
-                                      controller: confirmPassController,
-                                      enableValidator: true
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 20),
-                                    child: CustomButton(
-                                      label: "Registracija",
-                                      onTap: () async {
-                                        if(formKey.currentState!.validate()) {
-                                          await auth.signUpWithEmailAndPassword(emailController.text, passController.text, context);
-                                        }
-                                      },
+                  child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    double screenWidth = constraints.maxWidth;
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Dash Registracija", style: TextStyle(fontSize: 30, color: Colors.black)),
+                          Padding(padding: const EdgeInsets.fromLTRB(40,20,40,0),
+                            child: Align(alignment: Alignment.center,
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: kIsWeb ? screenWidth * 0.25 : null,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    CredentialTextField(
+                                        mainText: "Email naslov",
+                                        isPassword: false,
+                                        controller: emailController,
+                                        enableValidator: true
                                     ),
-                                  ),
-                                  TextButton(onPressed: (){
-                                    GoRouter.of(context).go(Constants.forgotPasswordRoute);
-                                  }, child: const Text("Pozabljeno geslo?")),
-                                  TextButton(onPressed: (){
-                                    GoRouter.of(context).go(Constants.loginRoute);
-                                  }, child: const Text("Prijava"))
-                                ],
+                                    CredentialTextField(
+                                        mainText: "Polno ime",
+                                        isPassword: false,
+                                        controller: fullNameController,
+                                        enableValidator: true
+                                    ),
+                                    CredentialTextField(
+                                        mainText: "Geslo",
+                                        isPassword: true,
+                                        controller: passController,
+                                        enableValidator: true,
+                                        allowObscureChange: true,
+                                        isPasswordVisible: password1Visible,
+                                        onVisibilityTap: () {
+                                          setState(() {
+                                            password1Visible = !password1Visible;
+                                          });
+                                        },
+                                    ),
+                                    CredentialTextField(
+                                        mainText: "Ponovi geslo",
+                                        isPassword: true,
+                                        controller: confirmPassController,
+                                        enableValidator: true,
+                                        allowObscureChange: true,
+                                        isPasswordVisible: password2Visible,
+                                        onVisibilityTap: () {
+                                          setState(() {
+                                            password2Visible = !password2Visible;
+                                          });
+                                        },
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 20),
+                                      child: CustomButton(
+                                        label: "Registracija",
+                                        onTap: () async {
+                                          if(formKey.currentState!.validate()) {
+                                            await auth.signUpWithEmailAndPassword(emailController.text, passController.text, context);
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    TextButton(onPressed: (){
+                                      GoRouter.of(context).go(Constants.forgotPasswordRoute);
+                                    }, child: const Text("Pozabljeno geslo?")),
+                                    TextButton(onPressed: (){
+                                      GoRouter.of(context).go(Constants.loginRoute);
+                                    }, child: const Text("Prijava")
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                    );
+                    },
                   ),
-                ),
-              ),
-            );
-          },
+                )
+              )
         )
     );
   }
