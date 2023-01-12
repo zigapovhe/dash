@@ -4,16 +4,15 @@ import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatBubble extends ConsumerWidget {
+class ChatBubble extends StatelessWidget {
   final Chat chat;
   final bool sentByMe;
   const ChatBubble({Key? key, required this.chat, required this.sentByMe}) : super(key: key);
   
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final firebase = ref.watch(getUserDocumentProvider);
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
