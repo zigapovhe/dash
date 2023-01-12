@@ -78,6 +78,7 @@ class DashboardScreen extends ConsumerWidget {
                          itemCount: data.length,
                          itemBuilder: (context, index) {
                            return ChatBanner(
+                                chatId: data[index].chatId,
                                name: data[index].title,
                                lastMessage: data[index].lastMessage,
                                time: data[index].timestamp!,

@@ -26,6 +26,11 @@ class ControllerServices {
     return RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$currentUserId/$chatId').get();
   }
 
+  Future<void> deleteChat(String chatId, String currentUserId) async {
+    RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$currentUserId/$chatId').remove();
+    await RTDB.FirebaseDatabase.instance.ref('full_chats/$chatId').remove();
+  }
+
   Future<void> _createPreviewChatsAsynchronously(List<Member> selectedMembers, Member member, String chatId) async {
     RTDB.DatabaseReference chatsPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/${member.uid}/$chatId');
     chatsPreviewRef.set({
@@ -38,12 +43,13 @@ class ControllerServices {
     });
   }
 
-  Future<void> sendMessage(String message, ChatPreview chatPreview, String currentUserId) async {
+  Future<void> sendMessage(String message, ChatPreview chatPreview, String currentUserId, String userName) async {
     RTDB.DatabaseReference fullChatRef = RTDB.FirebaseDatabase.instance.ref('full_chats/${chatPreview.chatId}').push();
     fullChatRef.set({
       'message': message,
       'userId': currentUserId,
       'timestamp': RTDB.ServerValue.timestamp,
+      'sender': userName,
     });
 
     for (var userId in chatPreview.userIds) {

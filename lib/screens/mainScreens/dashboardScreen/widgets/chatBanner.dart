@@ -1,10 +1,13 @@
 import 'package:dash/enums/ReadStatusEnum.dart';
 import 'package:dash/helpers/colors.dart';
 import 'package:dash/helpers/extensions.dart';
+import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
-class ChatBanner extends StatelessWidget {
+class ChatBanner extends ConsumerWidget {
+  final String chatId;
   final String name;
   final String lastMessage;
   final DateTime time;
@@ -13,6 +16,7 @@ class ChatBanner extends StatelessWidget {
 
   const ChatBanner(
       {Key? key,
+      required this.chatId,
       required this.name,
       required this.lastMessage,
       required this.time,
@@ -21,8 +25,7 @@ class ChatBanner extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context, WidgetRef ref) {
     Widget indicator;
     if (readStatus == ReadStatus.newMessage) {
       indicator = Container(
@@ -62,7 +65,8 @@ class ChatBanner extends StatelessWidget {
               swipeThreshold: 0.2,
               direction: SwipeDirection.horizontal,
               onSwiped: (direction) {
-                if(direction == SwipeDirection.endToStart){
+                if (direction == SwipeDirection.endToStart) {
+                  ref.read(deleteChatProvider(chatId: chatId));
                   print("Deleting this conversation...");
                 }
               },
@@ -82,15 +86,27 @@ class ChatBanner extends StatelessWidget {
                     child: SizedBox(
                         width: 50,
                         height: 50,
-                        child: Center(child: Text(name.abbreviation, style: const TextStyle(color: Colors.white, fontSize: 18),))),
+                        child: Center(
+                            child: Text(
+                          name.abbreviation,
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 18),
+                        ))),
                   ),
                 ),
-                title: Text(name, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold)),
-                subtitle: Text(lastMessage, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+                title: Text(name,
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                subtitle: Text(lastMessage,
+                    style: const TextStyle(color: Colors.grey, fontSize: 15)),
                 trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(time.toPrettyString, style: const TextStyle(color: Colors.grey, fontSize: 15)),
+                    Text(time.toPrettyString,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 15)),
                     const SizedBox(height: 5),
                     indicator
                   ],

@@ -33,6 +33,7 @@ class ProfileSettingsModal extends ConsumerWidget {
                 onPressed: () async {
                   ref.read(memberProvider.notifier).updateName(name: nameController.text);
                   await ref.read(updateUserDocumentProvider(name: nameController.text).future);
+                  context.pop();
                 },
                 child: const Text('Save')),
           ],

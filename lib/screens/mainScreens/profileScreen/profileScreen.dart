@@ -1,5 +1,4 @@
 import 'package:dash/helpers/colors.dart';
-import 'package:dash/screens/mainScreens/profileScreen/modals/accountSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/securitySettingsModal.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
@@ -14,6 +13,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final auth = ref.read(authenticationProvider);
+    final firebase =  ref.watch(getUserDocumentProvider);
+
     return Material(
       child: SafeArea(
         child: Container(
@@ -40,7 +41,10 @@ class ProfileScreen extends ConsumerWidget {
                       child: const Icon(Icons.person, color: Colors.white, size: 50),
                     ),
                     const SizedBox(height: 20),
-                    Text(auth.currentUser!.displayName ?? "No display name set", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    firebase.when(
+                    data: (user) => Text(user.name ?? "no display name", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    error: (e, s) => Text("Error"),
+                    loading: () => Text("loading")),
                     const SizedBox(height: 10),
                     Text(auth.currentUser!.email!, style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold)),
                   ],
@@ -60,19 +64,10 @@ class ProfileScreen extends ConsumerWidget {
                     }
                 ),
                 const SizedBox(height: 5),
-                SettingsButton(
-                    text: "Prijatelji",
-                    icon: Icons.people,
-                    onTap: (){
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const AccountSettingsModal()
-                      );
-                    }
-                ),
+                
                 const SizedBox(height: 5),
                 SettingsButton(
-                    text: "Varnost",
+                    text: "Resetiranje gesla",
                     icon: Icons.lock,
                     onTap: (){
                       showModalBottomSheet(
