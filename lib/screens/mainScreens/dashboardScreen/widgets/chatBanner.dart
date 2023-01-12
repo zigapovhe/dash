@@ -69,6 +69,7 @@ class ChatBanner extends StatelessWidget {
               backgroundBuilder: (context, direction, progress) {
                 if (direction == SwipeDirection.endToStart) {
                   return Container(color: Colors.red);
+                  
                 } else if (direction == SwipeDirection.startToEnd) {
                   return Container(color: Colors.blue);
                 }

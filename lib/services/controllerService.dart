@@ -26,6 +26,11 @@ class ControllerServices {
     return RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$currentUserId/$chatId').get();
   }
 
+  Future<void> deleteChat(String chatId, String currentUserId) async {
+
+    RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$currentUserId/$chatId').remove();
+  }
+
   Future<void> _createPreviewChatsAsynchronously(List<Member> selectedMembers, Member member, String chatId) async {
     RTDB.DatabaseReference chatsPreviewRef = RTDB.FirebaseDatabase.instance.ref('chatPreview/users/${member.uid}/$chatId');
     chatsPreviewRef.set({

@@ -1,5 +1,4 @@
 import 'package:dash/helpers/colors.dart';
-import 'package:dash/screens/mainScreens/profileScreen/modals/accountSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsModal.dart';
 import 'package:dash/screens/mainScreens/profileScreen/modals/securitySettingsModal.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
