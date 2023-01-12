@@ -10,10 +10,13 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: >-
-          flutter clean && flutter pub get && flutter packages pub run
-          build_runner build --delete-conflicting-outputs && flutter build web
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # or: 'beta', 'dev' or 'master'
+      - run: flutter pub get
+      - run: flutter packages pub run build_runner build --delete-conflicting-outputs
+      - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
