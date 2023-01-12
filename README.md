@@ -12,13 +12,13 @@ Ko smo prijavljeni aplikacijo je prva stran "dashboard", kjer imamo vse naše po
 Na Dashbordu, lahko kliknemo na posamezne pogovore in s tem odpremo celoten pogovor, kjer vidmo vsa poslana sporočila in jih sami tudi pošiljamo.
 
 Dash prijavni ekran:
-![Screenshot](Screenshot from 2023-01-12 18-51-13.png)
+![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot%20from%202023-01-12%2018-51-13.png)
 
 Dash klepet:
-![Screenshot](Screenshot from 2023-01-12 19-07-05.png)
+![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot%20from%202023-01-12%2019-07-05.png)
 
 Dash glavna Stran
-![Screenshot](Screenshot from 2023-01-12 19-08-05.png)
+![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot%20from%202023-01-12%2019-08-05.png)
 ### Requirements
 
 Make sure you have met the following requirements:
