@@ -58,7 +58,7 @@ Future<void> updateReadStatus(UpdateReadStatusRef ref, {required ChatPreview cha
 }
 
 @riverpod
-Future<Member> getUserDocument(GetUserDocumentRef ref) async {
+Future<Member> getCurrentUserDocument(GetCurrentUserDocumentRef ref) async {
   final userId = ref.read(currentUserProvider).value?.uid;
   final member = ref.read(memberProvider);
   if(member == null || userId != member.uid){

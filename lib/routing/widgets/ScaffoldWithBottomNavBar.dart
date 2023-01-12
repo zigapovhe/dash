@@ -42,6 +42,7 @@ class _ScaffoldWithBottomNavBarState extends ConsumerState<ScaffoldWithBottomNav
 
   @override
   Widget build(BuildContext context) {
+    ref.read(getCurrentUserDocumentProvider);
     if(!kIsWeb){
       return Scaffold(
         body: SafeArea(child: Material(child: widget.child)),

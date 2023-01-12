@@ -135,7 +135,7 @@ class DetailedChatScreen extends ConsumerWidget {
 
   void scrollToTheBottom(ScrollController scrollController){
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      scrollController.hasClients ? scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeOut) : null;
     });
   }
 }

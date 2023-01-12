@@ -56,7 +56,7 @@ class CreateChatScreen extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("${selectedUsers.length} izbranih", style: const TextStyle(color: Colors.grey)),
+                      Text("${selectedUsers.length} izbranih", style: const TextStyle(color: Colors.grey, fontSize: 16)),
                       Row(
                         children: [
                           TextButton(
@@ -77,7 +77,7 @@ class CreateChatScreen extends ConsumerWidget {
                                 GoRouter.of(context).pop();
                               },
                               style: TextButton.styleFrom(
-                                backgroundColor: Colors.grey,
+                                backgroundColor: ColorsHelper.accent.withOpacity(0.8),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

@@ -20,7 +20,7 @@ class AuthService {
     try {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => ref.read(getUserDocumentProvider));
+          .then((value) => ref.read(getCurrentUserDocumentProvider));
     } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,
