@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +20,7 @@ class AuthService {
     try {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => ref.read(getUserDocumentProvider));
+          .then((value) => ref.read(getCurrentUserDocumentProvider));
     } on FirebaseAuthException catch (e) {
       await showDialog(
         context: context,

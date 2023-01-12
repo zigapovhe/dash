@@ -13,7 +13,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final auth = ref.read(authenticationProvider);
-    final firebase =  ref.watch(getUserDocumentProvider);
+    final firebase = ref.watch(getCurrentUserDocumentProvider);
 
     return Material(
       child: SafeArea(
