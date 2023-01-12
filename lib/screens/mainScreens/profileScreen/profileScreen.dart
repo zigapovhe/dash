@@ -65,19 +65,10 @@ class ProfileScreen extends ConsumerWidget {
                     }
                 ),
                 const SizedBox(height: 5),
-                SettingsButton(
-                    text: "Prijatelji",
-                    icon: Icons.people,
-                    onTap: (){
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => const AccountSettingsModal()
-                      );
-                    }
-                ),
+                
                 const SizedBox(height: 5),
                 SettingsButton(
-                    text: "Varnost",
+                    text: "Resetiranje gesla",
                     icon: Icons.lock,
                     onTap: (){
                       showModalBottomSheet(
