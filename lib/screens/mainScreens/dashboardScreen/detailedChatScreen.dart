@@ -14,14 +14,16 @@ class DetailedChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final TextEditingController messageController = TextEditingController();
+    final ScrollController scrollController = ScrollController();
+    final screenHeight = MediaQuery.of(context).size.height;
     final chatData = ref.watch(fullChatProvider(chatPreview.chatId));
+    final currentUser = ref.watch(currentUserProvider);
     if(chatPreview.readStatus == ReadStatus.newMessage) {
       ref.read(updateReadStatusProvider(chatPreview: chatPreview));
     }
-    final currentUser = ref.watch(currentUserProvider);
-    final TextEditingController messageController = TextEditingController();
+    scrollToTheBottom(scrollController);
 
-    final screenHeight = MediaQuery.of(context).size.height;
     return Column(
       children: [
         //AppBar
@@ -52,6 +54,7 @@ class DetailedChatScreen extends ConsumerWidget {
             child: Container(
               margin: const EdgeInsets.only(top: 15),
               child: data.isNotEmpty ? ListView.builder(
+                controller: scrollController,
                 scrollDirection: Axis.vertical,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
@@ -103,6 +106,7 @@ class DetailedChatScreen extends ConsumerWidget {
                       const SizedBox(width: 10,),
                       Expanded(
                         child: TextField(
+                          autofocus: true,
                           controller: messageController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
@@ -113,20 +117,25 @@ class DetailedChatScreen extends ConsumerWidget {
                       IconButton(
                           icon: const Icon(Icons.send),
                           onPressed: () {
-                             ref.read(sendMessageProvider(chatPreview: chatPreview, message: messageController.text));
-                             messageController.clear();
+                            if(messageController.text.isNotEmpty){
+                              ref.read(sendMessageProvider(chatPreview: chatPreview, message: messageController.text));
+                            }
+                            messageController.clear();
                           }
                       ),
                     ],
                   ),
                 ),
               ),
-
         ])
         ),
-
-
       ],
     );
+  }
+
+  void scrollToTheBottom(ScrollController scrollController){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController.animateTo(scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    });
   }
 }

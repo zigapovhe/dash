@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
