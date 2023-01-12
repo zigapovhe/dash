@@ -40,7 +40,9 @@ Future<DataSnapshot> createChat(CreateChatRef ref, {required List<Member> select
 @riverpod
 Future<void> sendMessage(SendMessageRef ref, {required String message, required ChatPreview chatPreview}) async {
   final currentUserId = ref.read(currentUserProvider).value?.uid;
-  ref.read(controllerProvider).sendMessage(message, chatPreview, currentUserId!);
+  final userName = ref.read(getUserDocumentProvider).value?.name; // null
+  
+  ref.read(controllerProvider).sendMessage(message, chatPreview, currentUserId!, userName!);
 }
 
 @riverpod
