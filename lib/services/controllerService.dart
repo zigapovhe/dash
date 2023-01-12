@@ -27,8 +27,8 @@ class ControllerServices {
   }
 
   Future<void> deleteChat(String chatId, String currentUserId) async {
-
     RTDB.FirebaseDatabase.instance.ref('chatPreview/users/$currentUserId/$chatId').remove();
+    await RTDB.FirebaseDatabase.instance.ref('full_chats/$chatId').remove();
   }
 
   Future<void> _createPreviewChatsAsynchronously(List<Member> selectedMembers, Member member, String chatId) async {
