@@ -9,7 +9,7 @@ class Chat with _$Chat {
     required String message,
     @TimestampConverter()
     required DateTime timestamp,
-    required String sender,
+    required String? sender,
   }) = _Chat;
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
