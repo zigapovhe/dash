@@ -1,9 +1,11 @@
 import 'package:dash/dtos/memberDto/memberDto.dart';
 import 'package:dash/helpers/colors.dart';
+import 'package:dash/helpers/constants.dart';
 import 'package:dash/helpers/extensions.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateChatScreen extends ConsumerWidget {
   const CreateChatScreen({Key? key}) : super(key: key);
@@ -52,6 +54,7 @@ class CreateChatScreen extends ConsumerWidget {
                         Member me = users.firstWhere((element) => element.uid == currentUser.value!.uid);
                         List<Member> selectedUsers = [me, users[index]];
                         ref.read(createChatProvider(selectedMembers: selectedUsers));
+                        GoRouter.of(context).go(Constants.dashboardRoute);
                       },
                       child: ListTile(
                         leading: ClipOval(

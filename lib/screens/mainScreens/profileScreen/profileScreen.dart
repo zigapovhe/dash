@@ -14,6 +14,8 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final auth = ref.read(authenticationProvider);
+    final firebase =  ref.watch(getUserDocumentProvider);
+
     return Material(
       child: SafeArea(
         child: Container(
@@ -40,7 +42,10 @@ class ProfileScreen extends ConsumerWidget {
                       child: const Icon(Icons.person, color: Colors.white, size: 50),
                     ),
                     const SizedBox(height: 20),
-                    Text(auth.currentUser!.displayName ?? "No display name set", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    firebase.when(
+                    data: (user) => Text(user.name ?? "no display name", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    error: (e, s) => Text("Error"),
+                    loading: () => Text("loading")),
                     const SizedBox(height: 10),
                     Text(auth.currentUser!.email!, style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold)),
                   ],
