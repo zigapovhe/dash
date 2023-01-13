@@ -24,6 +24,26 @@ Mobile:
 ![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot_20230112-220200.png)
 
 ![alt text](https://github.com/zigapovhe/dash/blob/main/Screenshot_20230112-220209.png)
+
+Podatkovna baza:
+Users document:
+{
+   uid: string
+   email: string
+   firstLogin : boolean
+   tag: string
+}
+
+preview_chats document:
+{
+   users: array of chat ids   
+}
+full_chat document:
+{
+   chatId: {
+      aray of messages
+   }
+}
 ### Requirements
 
 Make sure you have met the following requirements:
