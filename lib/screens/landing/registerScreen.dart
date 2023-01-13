@@ -83,7 +83,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                         mainText: "Polno ime",
                                         isPassword: false,
                                         controller: fullNameController,
-                                        enableValidator: true
+                                        enableValidator: false
                                     ),
                                     CredentialTextField(
                                         mainText: "Geslo",
@@ -116,8 +116,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       child: CustomButton(
                                         label: "Registracija",
                                         onTap: () async {
-                                          if(formKey.currentState!.validate()) {
-                                            await auth.signUpWithEmailAndPassword(emailController.text, passController.text, context);
+                                          if(formKey.currentState!.validate() && passController.text == confirmPassController.text && fullNameController.text.isNotEmpty) {
+                                            await auth.signUpWithEmailAndPassword(context: context, ref: ref, name: fullNameController.text, email: emailController.text, password: passController.text);
                                           }
                                         },
                                       ),

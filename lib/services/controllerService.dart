@@ -99,7 +99,12 @@ class ControllerServices {
 
   Future<void> updateUsersDocument(String userId, String name) {
     final userDocRef = FirebaseFirestore.instance.collection("users").doc(userId);
-    return userDocRef.update({"firstLogin": false, "name": name});
+    Map<String, String> data = {
+      "name": name,
+    };
+    return userDocRef.set(data, SetOptions(merge : true,)).catchError((e) {
+      print(e);
+    });
   }
 }
 

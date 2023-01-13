@@ -70,8 +70,8 @@ Future<Member> getCurrentUserDocument(GetCurrentUserDocumentRef ref) async {
 }
 
 @riverpod
-Future<void> updateUserDocument(UpdateUserDocumentRef ref, {required String name}) async {
-  final userId = ref.read(currentUserProvider).value?.uid;
+Future<void> updateUserDocument(UpdateUserDocumentRef ref, {required String name, String? uid}) async {
+  final userId = ref.read(currentUserProvider).value?.uid ?? uid;
   return await ref.read(controllerProvider).updateUsersDocument(userId!, name);
 }
 

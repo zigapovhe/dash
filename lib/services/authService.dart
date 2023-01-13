@@ -3,6 +3,8 @@ import 'package:dash/state/userStateNotifier.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AuthService {
   // For Authentication related functions you need an instance of FirebaseAuth
@@ -40,15 +42,19 @@ class AuthService {
   }
 
   // SignUp the user using Email and Password
-  Future<void> signUpWithEmailAndPassword(
-      String email, String password, BuildContext context) async {
+  Future<void> signUpWithEmailAndPassword({required String email, required String password, required String name, required BuildContext context, required WidgetRef ref}) async {
     try {
-      _auth
-          .createUserWithEmailAndPassword(
-            email: email,
-            password: password,
-          )
-          .then((value) => _auth.signOut());
+      _auth.createUserWithEmailAndPassword(email: email, password: password,).then((value) async {
+        ref.read(updateUserDocumentProvider(name: name, uid: value.user!.uid));
+        _auth.signOut();
+        showTopSnackBar(
+          Overlay.of(context)!,
+          const CustomSnackBar.success(
+            message:
+            "Račun je bil uspešno ustvarjen",
+          ),
+        );
+      });
     } on FirebaseAuthException catch (e) {
       await showDialog(
           context: context,
