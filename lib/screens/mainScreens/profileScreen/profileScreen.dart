@@ -3,6 +3,7 @@ import 'package:dash/screens/mainScreens/profileScreen/modals/profileSettingsMod
 import 'package:dash/screens/mainScreens/profileScreen/modals/securitySettingsModal.dart';
 import 'package:dash/screens/widgets/settingsButton.dart';
 import 'package:dash/state/firebaseState/firebaseState.dart';
+import 'package:dash/state/userStateNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,7 +14,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final auth = ref.read(authenticationProvider);
-    final firebase = ref.watch(getCurrentUserDocumentProvider);
+    final member = ref.watch(memberProvider);
 
     return Material(
       child: SafeArea(
@@ -41,10 +42,7 @@ class ProfileScreen extends ConsumerWidget {
                       child: const Icon(Icons.person, color: Colors.white, size: 50),
                     ),
                     const SizedBox(height: 20),
-                    firebase.when(
-                    data: (user) => Text(user.name ?? "no display name", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
-                    error: (e, s) => Text("Error"),
-                    loading: () => Text("loading")),
+                    Text(member?.name ?? "no display name", style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 10),
                     Text(auth.currentUser!.email!, style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.bold)),
                   ],

@@ -3,6 +3,8 @@ import 'package:dash/state/userStateNotifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ProfileSettingsModal extends ConsumerWidget {
   const ProfileSettingsModal({Key? key}) : super(key: key);
@@ -33,6 +35,13 @@ class ProfileSettingsModal extends ConsumerWidget {
                 onPressed: () async {
                   ref.read(memberProvider.notifier).updateName(name: nameController.text);
                   await ref.read(updateUserDocumentProvider(name: nameController.text).future);
+                  showTopSnackBar(
+                    Overlay.of(context)!,
+                    const CustomSnackBar.success(
+                      message:
+                      "Profil je bil uspešno posodobljen",
+                    ),
+                  );
                   context.pop();
                 },
                 child: const Text('Save')),

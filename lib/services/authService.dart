@@ -24,28 +24,20 @@ class AuthService {
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) => ref.read(getCurrentUserDocumentProvider));
     } on FirebaseAuthException catch (e) {
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Error Occured'),
-          content: Text(e.toString()),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: const Text("OK"))
-          ],
+      showTopSnackBar(
+        Overlay.of(context)!,
+        const CustomSnackBar.error(
+          message:
+          "Zgodila se je nepričakovana napaka. Poskusite znova",
         ),
       );
     }
   }
 
   // SignUp the user using Email and Password
-  Future<void> signUpWithEmailAndPassword({required String email, required String password, required String name, required BuildContext context, required WidgetRef ref}) async {
+  Future<void> signUpWithEmailAndPassword({required String email, required String password, required BuildContext context, required WidgetRef ref}) async {
     try {
       _auth.createUserWithEmailAndPassword(email: email, password: password,).then((value) async {
-        ref.read(updateUserDocumentProvider(name: name, uid: value.user!.uid));
         _auth.signOut();
         showTopSnackBar(
           Overlay.of(context)!,
@@ -56,21 +48,22 @@ class AuthService {
         );
       });
     } on FirebaseAuthException catch (e) {
-      await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                  title: Text('Error Occured'),
-                  content: Text(e.toString()),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text("OK"))
-                  ]));
+      showTopSnackBar(
+        Overlay.of(context)!,
+        const CustomSnackBar.error(
+          message:
+          "Zgodila se je nepričakovana napaka. Poskusite znova",
+        ),
+      );
     } catch (e) {
       if (e == 'email-already-in-use') {
-        print('Email already in use.');
+        showTopSnackBar(
+          Overlay.of(context)!,
+          const CustomSnackBar.error(
+            message:
+            "Napaka! Račun z tem email-om že obstaja.",
+          ),
+        );
       } else {
         print('Error: $e');
       }
@@ -90,18 +83,13 @@ class AuthService {
           .sendPasswordResetEmail(email: userEmail)
           .then((value) => _auth.signOut());
     } on FirebaseAuthException catch (e) {
-      await showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                  title: Text('Error Occured'),
-                  content: Text(e.toString()),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text("OK"))
-                  ]));
+      showTopSnackBar(
+        Overlay.of(context)!,
+        const CustomSnackBar.error(
+          message:
+          "Zgodila se je nepričakovana napaka. Poiukusite znova.",
+        ),
+      );
     }
   }
 }

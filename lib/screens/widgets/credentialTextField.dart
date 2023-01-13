@@ -82,8 +82,8 @@ class _CredentialTextFieldState extends State<CredentialTextField> {
             ),
             widget.onVisibilityTap != null && widget.allowObscureChange
                 ? Positioned(
-              top: 16.0,
-              right: screenWidth * 0.05,
+              top: 20.0,
+              right: 20,
               child: GestureDetector(
                 onTap: widget.onVisibilityTap,
                 child: Container(

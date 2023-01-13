@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -18,7 +20,6 @@ class RegisterScreen extends ConsumerStatefulWidget {
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  TextEditingController fullNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   bool password1Visible = false;
@@ -80,12 +81,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                         enableValidator: true
                                     ),
                                     CredentialTextField(
-                                        mainText: "Polno ime",
-                                        isPassword: false,
-                                        controller: fullNameController,
-                                        enableValidator: false
-                                    ),
-                                    CredentialTextField(
                                         mainText: "Geslo",
                                         isPassword: true,
                                         controller: passController,
@@ -116,8 +111,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                       child: CustomButton(
                                         label: "Registracija",
                                         onTap: () async {
-                                          if(formKey.currentState!.validate() && passController.text == confirmPassController.text && fullNameController.text.isNotEmpty) {
-                                            await auth.signUpWithEmailAndPassword(context: context, ref: ref, name: fullNameController.text, email: emailController.text, password: passController.text);
+                                          if(formKey.currentState!.validate() && passController.text == confirmPassController.text && emailController.text.isNotEmpty) {
+                                            await auth.signUpWithEmailAndPassword(context: context, ref: ref, email: emailController.text, password: passController.text);
+                                          } else {
+                                            showTopSnackBar(
+                                              Overlay.of(context)!,
+                                              const CustomSnackBar.error(
+                                                message:
+                                                "Izpovnite vsa polja.",
+                                              ),
+                                            );
                                           }
                                         },
                                       ),
